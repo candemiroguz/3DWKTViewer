@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cesium</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      h2 {
+        margin-top: 0;
+      }
+
+      table,
+      p {
+        margin-left: 25px;
+      }
+
+      td {
+        padding-bottom: 15px;
+        vertical-align: top;
+      }
+
+      td:first-child {
+        padding-right: 15px;
+      }
+
+      .section:nth-child(even) {
+        background-color: #fff;
+      }
+
+      .section {
+        border: none;
+        padding: 20px 40px;
+      }
+
+      .section > * {
+        max-width: 800px;
+      }
+    </style>
+  </head>
+  <body style="background-color: #f5f7f9">
+    
+    <script type="text/javascript">
+      if (window.location.protocol === "file:") {
+        document.body.innerHTML = "";
+        document.write("<p><b>This file must be hosted in a web server.</br>");
+        document.write(
+          'Need help?  Ask on our <a href="https://community.cesium.com/">Community Forum</a>.</b></p>'
+        );
+      }
+    </script>
+  </body>
+</html>

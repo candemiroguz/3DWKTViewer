@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -17,13 +17,72 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+    <PackageReference Include="NetTopologySuite" Version="2.5.0" />
+    <PackageReference Include="NetTopologySuite.Features" Version="2.2.0" />
+    <PackageReference Include="NetTopologySuite.IO.GeoJSON" Version="4.0.0" />
+    <PackageReference Include="NetTopologySuite.IO.PostGis" Version="2.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
+    <PackageReference Include="Npgsql.NetTopologySuite" Version="8.0.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BusinessLayer\BusinessLayer.csproj" />
     <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
     <ProjectReference Include="..\EntityLayer\EntityLayer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Cesium-1.121\Build\CesiumUnminified\Core\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\CesiumUnminified\DataSources\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\CesiumUnminified\Renderer\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\CesiumUnminified\Scene\GltfPipeline\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\CesiumUnminified\Scene\Model\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\CesiumUnminified\Shaders\Appearances\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\CesiumUnminified\Shaders\Builtin\Constants\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\CesiumUnminified\Shaders\Builtin\Functions\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\CesiumUnminified\Shaders\Builtin\Structs\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\CesiumUnminified\Shaders\Materials\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\CesiumUnminified\Shaders\Model\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\CesiumUnminified\Shaders\PostProcessStages\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\CesiumUnminified\Shaders\Voxels\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\CesiumUnminified\Widgets\HomeButton\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\CesiumUnminified\Widgets\ThirdParty\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\CesiumUnminified\Widget\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\Cesium\Core\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\Cesium\DataSources\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\Cesium\Renderer\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\Cesium\Scene\GltfPipeline\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\Cesium\Scene\Model\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\Cesium\Shaders\Appearances\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\Cesium\Shaders\Builtin\Constants\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\Cesium\Shaders\Builtin\Functions\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\Cesium\Shaders\Builtin\Structs\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\Cesium\Shaders\Materials\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\Cesium\Shaders\Model\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\Cesium\Shaders\PostProcessStages\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\Cesium\Shaders\Voxels\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\Cesium\Widgets\HomeButton\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\Cesium\Widgets\ThirdParty\" />
+    <Folder Include="wwwroot\Cesium-1.121\Build\Cesium\Widget\" />
+    <Folder Include="wwwroot\Cesium-1.121\Source\Core\" />
+    <Folder Include="wwwroot\Cesium-1.121\Source\DataSources\" />
+    <Folder Include="wwwroot\Cesium-1.121\Source\Renderer\" />
+    <Folder Include="wwwroot\Cesium-1.121\Source\Scene\GltfPipeline\" />
+    <Folder Include="wwwroot\Cesium-1.121\Source\Scene\Model\" />
+    <Folder Include="wwwroot\Cesium-1.121\Source\Shaders\Appearances\" />
+    <Folder Include="wwwroot\Cesium-1.121\Source\Shaders\Builtin\Constants\" />
+    <Folder Include="wwwroot\Cesium-1.121\Source\Shaders\Builtin\Functions\" />
+    <Folder Include="wwwroot\Cesium-1.121\Source\Shaders\Builtin\Structs\" />
+    <Folder Include="wwwroot\Cesium-1.121\Source\Shaders\Materials\" />
+    <Folder Include="wwwroot\Cesium-1.121\Source\Shaders\Model\" />
+    <Folder Include="wwwroot\Cesium-1.121\Source\Shaders\PostProcessStages\" />
+    <Folder Include="wwwroot\Cesium-1.121\Source\Shaders\Voxels\" />
+    <Folder Include="wwwroot\Cesium-1.121\Source\Widgets\HomeButton\" />
+    <Folder Include="wwwroot\Cesium-1.121\Source\Widgets\ThirdParty\" />
+    <Folder Include="wwwroot\Cesium-1.121\Source\Widget\" />
+    <Folder Include="wwwroot\Cesium-1.121\Source\Workers\" />
   </ItemGroup>
 
 </Project>

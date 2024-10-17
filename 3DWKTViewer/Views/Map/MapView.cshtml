@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>3D WKT Viewer</title>
+    <link href="/lib/Cesium-1.121/Build/Cesium/Widgets/widgets.css" rel="stylesheet" />
+    <script src="/lib/Cesium-1.121/Build/Cesium/Cesium.js"></script>
+</head>
+<body>
+
+
+    <div id="cesiumContainer" style="width: 100%; height: auto;">
+        <form method="post" id="wktForm" class="text-center">
+            <label for="wktInput">WKT Formatındaki Veriyi Girin:</label>
+            <input type="text" id="wktInput" name="wktInput" required />
+            <button type="submit">Kaydet</button>
+        </form>
+    </div>
+
+    <script>
+        const viewer = new Cesium.Viewer('cesiumContainer');
+       
+
+
+        document.getElementById('wktForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            var wktValue = document.getElementById('wktInput').value;
+
+            fetch('/Map/SaveWKT', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ wkt: wktValue }) // WKT verisini JSON formatında sunucuya gönder
+            });
+
+            const geoJson = {
+                "type": "FeatureCollection",
+                "features": [{
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[
+                            [-64.8, 32.3],
+                            [-80.3, 25.2],
+                            [-65.5, 18.3],
+                            [-64.8, 32.3]
+                        ]]
+                    },
+                    "properties": {}
+                }]
+            };
+
+            viewer.dataSources.add(Cesium.GeoJsonDataSource.load(geoJson));
+
+            // fetch('/Map/GetGeoJson', {
+            //     method: 'GET',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     }
+            // })
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         console.log("GetGeoJson Response:", data);
+            //         if (data) {
+            //             // Cesium ile GeoJSON render etme
+            //             viewer.dataSources.add(Cesium.GeoJsonDataSource.load(data);
+            //         }
+            //     })
+            //     .catch(error => console.error('Error:', error));
+            
+        });
+
+
+
+    </script>
+
+</body>
+</html>

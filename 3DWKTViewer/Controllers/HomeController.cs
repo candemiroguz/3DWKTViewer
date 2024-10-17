@@ -1,4 +1,6 @@
 using _3DWKTViewer.Models;
+using BusinessLayer.Abstract;
+using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,7 +9,7 @@ namespace _3DWKTViewer.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
+        
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;

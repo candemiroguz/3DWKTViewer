@@ -1,4 +1,7 @@
 ﻿using DataAccessLayer.Abstract;
+using DataAccessLayer.Concrete;
+using EntityLayer.Concrete;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,29 +12,50 @@ namespace DataAccessLayer.Repository
 {
     public class GenericsRepository<T> : IGenericsRepository<T> where T : class
     {
-        public Task AddAsync(T entity)
+
+        private readonly DbContextConnection _context;
+
+        public GenericsRepository(DbContextConnection context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task DeleteAsync(T entity)
+        public async Task AddAsync(T e)
         {
-            throw new NotImplementedException();
+            await _context.Set<T>().AddAsync(e);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<T> GetByIdAsync(int id)
+        public async Task DeleteAsync(T e)
         {
-            throw new NotImplementedException();
+            _context.Set<T>().Remove(e);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<List<T>> GetListAsync()
+        public async Task<T> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Set<T>().FindAsync(id);
         }
 
-        public Task UpdateAsync(T entity)
+        public async Task<List<T>> GetListAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Set<T>().ToListAsync();
         }
+
+        public async Task UpdateAsync(T e)
+        {
+            _context.Set<T>().Update(e);
+            await _context.SaveChangesAsync();
+        }
+        public async Task<List<String>> GetGeoJsonDataAsync()
+        {
+            var asd = await _context.Geometries
+                .OrderByDescending(x =>x.Id)
+                .Select(x=>x.GeoJsonGeom)
+                .ToListAsync();
+            return asd;
+            
+        }
+
     }
 }

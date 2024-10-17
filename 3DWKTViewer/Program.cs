@@ -1,7 +1,20 @@
+using BusinessLayer.Abstract;
+using BusinessLayer.Concrete;
+using DataAccessLayer.Abstract;
+using DataAccessLayer.Concrete;
+using DataAccessLayer.Repository;
+using EntityLayer.Concrete;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IGeometryServices, GeometryServices>();
+builder.Services.AddScoped(typeof(IGenericsRepository<Geometry>), typeof(GenericsRepository<Geometry>));
+builder.Services.AddDbContext<DbContextConnection>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DbConnection")));
+
 
 var app = builder.Build();
 
