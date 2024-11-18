@@ -41,26 +41,34 @@ namespace BusinessLayer.Concrete
             await _genericsRepository.UpdateAsync(geometry);
         }
 
-        public string ConvertWktToGeoJson(string wkt) 
+        public string WktToGeoJson(string wkt) 
         {
-            //throw new NotImplementedException();
-            NetTopologySuite.IO.WKTReader reader = new WKTReader();
-            NetTopologySuite.Geometries.Geometry geometry = reader.Read(wkt);
+            if (wkt.StartsWith("POLYGON"))
+            {
+                var coordinates = wkt.Replace("POLYGON ((", "").Replace("))", "");
+                var points = coordinates.Split(",").Select(point =>
+                {
+                    var coords = point.Trim().Split(" ");
+                    return new double[] { double.Parse(coords[0]), double.Parse(coords[1]) };
+                }).ToList();
 
+                return @$"{{
+                ""type"": ""FeatureCollection"",
+                ""features"": [{{
+                    ""type"": ""Feature"",
+                    ""geometry"": {{
+                        ""type"": ""Polygon"",
+                        ""coordinates"": [[{string.Join(",", points.Select(p => $"[{p[0]}, {p[1]}]"))}]]
+                    }},
+                    ""properties"": {{}}
+                }}]
+            }}";
+            }
 
-            GeoJsonWriter geoJsonWriter = new GeoJsonWriter();
-            string geoJson = geoJsonWriter.Write(geometry);
-
-            //var geoJson = JsonSerializer.Serialize(geometry);
-
-            //string geoJson = geoJsonWriter.Write(geometry);
-
-            return  geoJson;
+            // Hatalı WKT formatı için uyarı döndürme
+            return @"{ ""error"": ""Invalid WKT format"" }";
         }
-        public async Task<List<String>> GetGeoJsonDataAsync()
-        {
-            return await _genericsRepository.GetGeoJsonDataAsync();
-        }
+        
         
     }
 }

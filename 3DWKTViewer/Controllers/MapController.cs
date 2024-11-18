@@ -1,85 +1,50 @@
 ﻿using BusinessLayer.Abstract;
-using BusinessLayer.Concrete;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Mvc;
-using NetTopologySuite.IO;
 using Newtonsoft.Json;
-using System.Text.Json;
 
-namespace _3DWKTViewer.Controllers
+public class MapController : Controller
 {
-    public class MapController : Controller
+    private readonly IGeometryServices _geometryServices;
+    public MapController(IGeometryServices geometryServices)
     {
-        private readonly IGeometryServices _geometryServices;
-        public MapController(IGeometryServices geometryServices)
+        _geometryServices = geometryServices;
+    }
+
+    [HttpGet]
+    public IActionResult MapView()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult MapView(string wktInput)
+    {
+        // WKT'yi GeoJSON formatına çevirme (örnek bir dönüşüm mantığı)
+        var geoJson = _geometryServices.WktToGeoJson(wktInput);
+
+        // GeoJSON'u ViewData ile View'a gönderiyoruz
+        ViewData["GeoJson"] = geoJson;
+
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> SaveWKT(string wktInput)
+    {
+        if (wktInput == null || string.IsNullOrEmpty(wktInput))
         {
-            _geometryServices = geometryServices;
+            return BadRequest("Geçerli Olmayan WKT değeri girdiniz!/In");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> SaveWKT([FromBody] WktInputModel WKT)
+        string geoJson = _geometryServices.WktToGeoJson(wktInput);
+        
+        await _geometryServices.AddGeometryAsync(new Geometry
         {
-            if (WKT == null || string.IsNullOrEmpty(WKT.Wkt))
-            {
-                return BadRequest("Geçerli Olmayan WKT değeri girdiniz!");
-            }
+            WKTGeom = wktInput,
+            GeoJsonGeom = geoJson
+        });
 
-            var geometryJson = _geometryServices.ConvertWktToGeoJson(WKT.Wkt);
-            var featureCollection = new
-            {
-                type = "FeatureCollection",
-                features = new[]
-            {
-            new
-            {
-                type = "Feature",
-                geometry = new
-                {
-                    type = "Polygon",
-                    coordinates = new double[][][]
-                    {
-                        new double[][]
-                        {
-                            new double[] { -64.8, 32.3 },
-                            new double[] { -80.3, 25.2 },
-                            new double[] { -65.5, 18.3 },
-                            new double[] { -64.8, 32.3 }
-                        }
-                    }
-                },
-                properties = new { } // Boş properties alanı
-            }
-            }
-            };
-            string geoJson = JsonConvert.SerializeObject(featureCollection);
-            await _geometryServices.AddGeometryAsync(new Geometry
-            {
-                WKTGeom = WKT.Wkt,
-                GeoJsonGeom = geoJson
-            });
-
-            return Json(geoJson);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetGeoJson()
-        {
-            var lastGeoJsonData = await _geometryServices.GetGeoJsonDataAsync();
-            var asd = lastGeoJsonData.FirstOrDefault();
-
-            GeoJsonWriter _geoJsonWriter = new GeoJsonWriter();
-            var str = _geoJsonWriter.Write(asd);
-            //var hhh = new GeoJsonReader();
-            //var xxx = hhh.Read(asd);
-            ////var sss = GeoJsonReader(asd);
-            return Json(str);
-        }
-
-        public IActionResult MapView()
-        {
-            return View();
-        }
-
-
+        return Json(geoJson);
     }
 }

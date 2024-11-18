@@ -14,7 +14,7 @@ namespace BusinessLayer.Abstract
         Task UpdateGeometryAsync(Geometry geometry);
         Task DeleteGeometryAsync(int id);
         Task<Geometry> GetGeometryAsync(int id);
-        string ConvertWktToGeoJson(string wkt);
-        Task<List<String>> GetGeoJsonDataAsync();
+        string WktToGeoJson(string wkt);
+        
     }
 }
